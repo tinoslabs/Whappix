@@ -30,9 +30,9 @@ class CheckAppStatus
         }
 
         // Check if the application is installed
-        if (!$this->isInstalled()) {
-            return redirect()->route('install'); // Redirect to the install page
-        }
+        // if (!$this->isInstalled()) {
+        //     return redirect()->route('install'); 
+        // }
 
         // Check if the current route is the update route
         if (Str::startsWith($currentPath, 'update')) {
