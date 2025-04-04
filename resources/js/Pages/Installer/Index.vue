@@ -89,7 +89,7 @@
                         </Link>
                     </div>
                 </div>
-                <div v-else-if="props.step === 'database'" class="mt-5 px-4">
+                <!-- <div v-else-if="props.step === 'database'" class="mt-5 px-4">
                     <form v-if="!isValidPurchaseCode" class="w-80" @submit.prevent="validateCode()">
                         <h4 class="text-center text-xl mb-4">{{ $t('Enter Purchase Code') }}</h4>
                         <div v-if="purchaseCodeError != null" class="mt-4 p-2 bg-slate-200 border-l-[2px] border-red-500 my-4 max-w-[28em] text-sm">{{ purchaseCodeError }}</div>
@@ -127,7 +127,7 @@
                             </button>
                         </div>
                     </form>
-                </div>
+                </div> -->
                 <div v-else-if="props.step == 'app'" class="md:w-[30em] p-2">
                     <p class="text-center text-xl mb-4">{{ $t('Project & User Details') }}</p>
                     <form @submit.prevent="setCompanyDetails()">
