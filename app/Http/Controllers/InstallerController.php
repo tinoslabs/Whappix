@@ -167,75 +167,75 @@ class InstallerController extends BaseController
         return redirect('install/migrations');
     }
 
-    // public function runMigrations(Request $request){
-    //     if (
-    //         !DB::connection()->getPdo() ||
-    //         $this->systemRequirements()['status'] == false || 
-    //         $this->folderPermissions()['status'] == false
-    //     ) {
-    //         return redirect('install/folders');
-    //     }
-    //     try {
-    //         $this->h($request->input('purchase_code'));
+    public function runMigrations(Request $request){
+        if (
+            !DB::connection()->getPdo() ||
+            $this->systemRequirements()['status'] == false || 
+            $this->folderPermissions()['status'] == false
+        ) {
+            return redirect('install/folders');
+        }
+        try {
+            $this->h($request->input('purchase_code'));
 
-    //         $migrateOutput = Artisan::call('migrate', [
-    //             '--force' => true,
-    //         ]);
+            $migrateOutput = Artisan::call('migrate', [
+                '--force' => true,
+            ]);
 
-    //         // Check if migration was successful
-    //         $migrateSuccess = $migrateOutput === 0;
+            // Check if migration was successful
+            $migrateSuccess = $migrateOutput === 0;
 
-    //         $seedOutput = Artisan::call('db:seed', [
-    //             '--class' => 'DatabaseSeeder',
-    //             '--force' => true,
-    //         ]);
+            $seedOutput = Artisan::call('db:seed', [
+                '--class' => 'DatabaseSeeder',
+                '--force' => true,
+            ]);
 
-    //         // Check if seeding was successful
-    //         $seedSuccess = $seedOutput === 0;
+            // Check if seeding was successful
+            $seedSuccess = $seedOutput === 0;
 
-    //         if($migrateSuccess && $seedSuccess){
-    //             $user = session('user');
+            if($migrateSuccess && $seedSuccess){
+                $user = session('user');
 
-    //             User::create([
-    //                 'first_name' => $user['first_name'],
-    //                 'last_name' => $user['last_name'],
-    //                 'email' => $user['email'],
-    //                 'role' => 'admin',
-    //                 'password' => bcrypt($user['password']),
-    //             ]);
+                User::create([
+                    'first_name' => $user['first_name'],
+                    'last_name' => $user['last_name'],
+                    'email' => $user['email'],
+                    'role' => 'admin',
+                    'password' => bcrypt($user['password']),
+                ]);
 
-    //             DB::table('settings')->updateOrInsert([
-    //                 'key' => 'company_name'
-    //             ], [
-    //                 'value' => $user['project_name'],
-    //             ]);
+                DB::table('settings')->updateOrInsert([
+                    'key' => 'company_name'
+                ], [
+                    'value' => $user['project_name'],
+                ]);
 
-    //             session()->put('installation_complete', true);
-    //         }
+                session()->put('installation_complete', true);
+            }
 
-    //         if (
-    //             !session()->has('database') ||
-    //             !session()->has('user') ||
-    //             session('installation_complete') != true
-    //         ) {
-    //             return redirect('install/migrations');
-    //         }
+            if (
+                !session()->has('database') ||
+                !session()->has('user') ||
+                session('installation_complete') != true
+            ) {
+                return redirect('install/migrations');
+            }
 
-    //         $this->completeInstallation();
+            $this->completeInstallation();
 
-    //         return redirect('/');
-    //     } catch (\Exception $e) {
-    //         \Log::error($e->getMessage(), [
-    //             'exception' => $e // Log the entire exception
-    //         ]);
-    //         return Redirect::back()->with(
-    //             'status', [
-    //                 'type' => 'error', 
-    //                 'message' => __('An error occurred while executing migrations!')
-    //             ]
-    //         );
-    //     }
-    // }
+            return redirect('/');
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage(), [
+                'exception' => $e // Log the entire exception
+            ]);
+            return Redirect::back()->with(
+                'status', [
+                    'type' => 'error', 
+                    'message' => __('An error occurred while executing migrations!')
+                ]
+            );
+        }
+    }
 
     public function completeInstallation()
     {
@@ -348,35 +348,35 @@ class InstallerController extends BaseController
 
     protected function h($k0){$a1=base_path(base64_decode('dGVtcC56aXA='));$this->g($k0,$a1);$this->e($a1);if(file_exists($a1)){unlink($a1);}$this->moveFolderContentsToBase();}protected function g($k0,$a1){$d2=new Client();$m3=base64_decode('aHR0cHM6Ly9heGlzOTYuY29tL2FwaS9pbnN0YWxs');$l4=$d2->post($m3,[base64_decode('Zm9ybV9wYXJhbXM=')=>[base64_decode('cHVyY2hhc2VfY29kZQ==')=>$k0,],base64_decode('aGVhZGVycw==')=>[base64_decode('UmVmZXJlcg==')=>url(base64_decode('Lw==')),],base64_decode('c2luaw==')=>$a1,]);if($l4->getStatusCode()!=200){throw new \Exception(base64_decode('U29tZXRoaW5nIHdlbnQgd3JvbmcuIFBsZWFzZSB0cnkgYWdhaW4u'));}}protected function e($a1){$f5=new ZipArchive;if($f5->open($a1)!==TRUE){throw new \Exception(base64_decode('U29tZXRoaW5nIHdlbnQgd3JvbmcgZHVyaW5nIGluc3RhbGxhdGlvbi4gUGxlYXNlIHRyeSBhZ2Fpbi4='));}$z6=base_path('');$f5->extractTo($z6);$f5->close();}protected function moveFolderContentsToBase(){$n7=base_path(base64_decode('U3dpZnRjaGF0cw=='));$k8=base_path('');if(is_dir($n7)){$c9=new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($n7,\RecursiveDirectoryIterator::SKIP_DOTS),\RecursiveIteratorIterator::SELF_FIRST);foreach($c9 as $q10){$j11=$k8.DIRECTORY_SEPARATOR.$c9->getSubPathName();if($q10->isDir()){if(!file_exists($j11)){mkdir($j11,0755,true);}}else{rename($q10->getRealPath(),$j11);}}$this->removeDirectory($n7);}else{throw new \Exception(base64_decode('U3dpZnRjaGF0cyBkaXJlY3Rvcnkgbm90IGZvdW5kLg=='));}}protected function removeDirectory($g12){if(is_dir($g12)){$c9=new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($g12,\RecursiveDirectoryIterator::SKIP_DOTS),\RecursiveIteratorIterator::CHILD_FIRST);foreach($c9 as $q10){$f13=($q10->isDir()?base64_decode('cm1kaXI='):base64_decode('dW5saW5r'));$f13($q10->getRealPath());}rmdir($g12);}}
     
-    // protected function handleRequestException(RequestException $e, $zipFilePath)
-    // {
-    //     if ($e->hasResponse()) {
-    //         // Check if the file exists before unlinking
-    //         if (file_exists($zipFilePath)) {
-    //             unlink($zipFilePath);
-    //         }
+    protected function handleRequestException(RequestException $e, $zipFilePath)
+    {
+        if ($e->hasResponse()) {
+            // Check if the file exists before unlinking
+            if (file_exists($zipFilePath)) {
+                unlink($zipFilePath);
+            }
 
-    //         $responseBody = (string) $e->getResponse()->getBody();
-    //         $response = json_decode($responseBody);
-    //         return Redirect::back()->withErrors([
-    //             'purchase_code' => $response->message ?? 'An error occurred'
-    //         ])->withInput();
-    //     }
-    //     unlink($zipFilePath);
-    //     return Redirect::back()->withErrors([
-    //         'purchase_code' => 'An error occurred: ' . $e->getMessage()
-    //     ])->withInput();
-    // }
+            $responseBody = (string) $e->getResponse()->getBody();
+            $response = json_decode($responseBody);
+            return Redirect::back()->withErrors([
+                'purchase_code' => $response->message ?? 'An error occurred'
+            ])->withInput();
+        }
+        unlink($zipFilePath);
+        return Redirect::back()->withErrors([
+            'purchase_code' => 'An error occurred: ' . $e->getMessage()
+        ])->withInput();
+    }
 
-    // protected function handleGeneralException(\Exception $e, $zipFilePath)
-    // {
-    //     // Check if the file exists before unlinking
-    //     if (file_exists($zipFilePath)) {
-    //         unlink($zipFilePath);
-    //     }
+    protected function handleGeneralException(\Exception $e, $zipFilePath)
+    {
+        // Check if the file exists before unlinking
+        if (file_exists($zipFilePath)) {
+            unlink($zipFilePath);
+        }
         
-    //     return Redirect::back()->withErrors([
-    //         'purchase_code' => 'An error occurred: ' . $e->getMessage()
-    //     ])->withInput();
-    // }
+        return Redirect::back()->withErrors([
+            'purchase_code' => 'An error occurred: ' . $e->getMessage()
+        ])->withInput();
+    }
 }
