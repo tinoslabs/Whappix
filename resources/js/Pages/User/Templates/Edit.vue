@@ -262,6 +262,8 @@
     import 'vue3-toastify/dist/index.css';
     import { router } from '@inertiajs/vue3';
 
+    
+
     const props = defineProps(['languages', 'template']);
     const headerCharacterLimit = ref('60');
     const headerCharacterCount = ref('0');
